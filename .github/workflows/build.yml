@@ -45,22 +45,28 @@ jobs:
       shell: bash
       run: |
         cd build && ninja
+        echo '****A****'
         ls
         cd ../
+        echo '****B****'
+        ls
         # bundle app from trial
         mkdir bundle
         cd bundle
         curl -O -J "https://www.aseprite.org/downloads/trial/Aseprite-v1.3.2-trial-macOS.dmg"
         mkdir mount
         yes qy | hdiutil attach -quiet -nobrowse -noverify -noautoopen -mountpoint mount Aseprite-v1.3.2-trial-macOS.dmg
+        echo '****C****'
         cp -r mount/Aseprite.app .
         hdiutil detach mount
         rm -rf Aseprite.app/Contents/MacOS/aseprite
         cp -r ../aseprite/build/bin/aseprite Aseprite.app/Contents/MacOS/aseprite
         rm -rf Aseprite.app/Contents/Resources/data
         cp -r ../aseprite/build/bin/data Aseprite.app/Contents/Resources/data
+        echo '****D****'
         ls
         cd .. 
+        echo '****E****'
         ls
     - name: upload-build-file
       uses: actions/upload-artifact@v3
